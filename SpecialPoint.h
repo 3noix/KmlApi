@@ -10,10 +10,11 @@
 class SpecialPoint
 {
 	public:
-		SpecialPoint(const QString &name, const Point &p, AltitudeMode altMode = AltitudeMode::Absolute)
+		SpecialPoint(const QString &name, const Point &p, const QString &styleUrl, AltitudeMode altMode = AltitudeMode::Absolute)
 		{
 			m_name = name;
 			m_point = p;
+			m_styleUrl = styleUrl;
 			m_altMode = altMode;
 		};
 

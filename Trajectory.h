@@ -15,9 +15,10 @@ using Function = std::function<double(double)>;
 class Trajectory
 {
 	public:
-		Trajectory(const QString &name, AltitudeMode altMode = AltitudeMode::Absolute)
+		Trajectory(const QString &name, const QString &styleUrl, AltitudeMode altMode = AltitudeMode::Absolute)
 		{
 			m_name = name;
+			m_styleUrl = styleUrl;
 			m_altMode = altMode;
 		};
 
@@ -31,14 +32,14 @@ class Trajectory
 		void setName(const QString &name) {m_name = name;};
 		QString name() const {return m_name;};
 
-		bool setPoints(double t1, double t2, double dt, Function lat, Function lon, Function alt)
+		bool setPoints(double t1, double t2, double dt, Function lon, Function lat, Function alt)
 		{
 			if (t1 > t2 || dt <= 0) {return false;}
 			int n = 1 + std::floor((t2-t1)/dt);
 			m_points.clear();
 			m_points.reserve(n+10);
 
-			for (double t=t1; t<=t2; t+=dt) {m_points.emplace_back(lat(t),lon(t),alt(t));}
+			for (double t=t1; t<=t2; t+=dt) {m_points.emplace_back(lon(t),lat(t),alt(t));}
 			return true;
 		};
 		void setPoints(const std::vector<Point> &points) {m_points = points;};

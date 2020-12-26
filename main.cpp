@@ -14,18 +14,15 @@ int main(int argc, char *argv[])
 	KmlFile kml{"My kml test file"};
 
 	// point 1
-	SpecialPoint p1{"Departure", Point{1.37,43.63,151}, AltitudeMode::ClampToGround};
-	p1.setStyleUrl("#start");
-	kml.addSpecialPoints(p1);
+	SpecialPoint p1{"Departure", Point{1.37,43.63,151}, "#start", AltitudeMode::ClampToGround};
+	kml.addSpecialPoint(p1);
 
 	// point 2
-	SpecialPoint p2{"Arrival", Point{1.47,43.63,163}, AltitudeMode::ClampToGround};
-	p2.setStyleUrl("#end");
-	kml.addSpecialPoints(p2);
+	SpecialPoint p2{"Arrival", Point{1.47,43.63,163}, "#end", AltitudeMode::ClampToGround};
+	kml.addSpecialPoint(p2);
 
 	// trajectory
-	Trajectory traj{"Trajectory", AltitudeMode::ClampToGround};
-	traj.setStyleUrl("#track");
+	Trajectory traj{"Trajectory", "#track", AltitudeMode::ClampToGround};
 	traj.addPoint(Point{1.37,43.63,151});
 	traj.addPoint(Point{1.37,43.53,154});
 	traj.addPoint(Point{1.47,43.53,158});

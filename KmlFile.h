@@ -28,7 +28,7 @@ class KmlFile
 		~KmlFile() = default;
 
 
-		void addSpecialPoints(const SpecialPoint &sp) {m_specialPoints.push_back(sp);};
+		void addSpecialPoint(const SpecialPoint &sp) {m_specialPoints.push_back(sp);};
 		void addTrajectory(const Trajectory &traj) {m_trajectories.push_back(traj);};
 
 		void setName(const QString &name) {m_name = name;};
