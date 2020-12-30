@@ -4,6 +4,7 @@
 
 #include <map>
 #include <vector>
+#include <memory>
 #include <QString>
 #include "AbstractKmlItem.h"
 
@@ -24,7 +25,7 @@ class KmlFile
 		KmlFile(KmlFile &&other) = delete;
 		KmlFile& operator=(const KmlFile &other) = delete;
 		KmlFile& operator=(KmlFile &&other) = delete;
-		~KmlFile() {qDeleteAll(m_kmlItems);};
+		~KmlFile() = default;
 
 
 		void setName(const QString &name) {m_name = name;};
@@ -34,7 +35,7 @@ class KmlFile
 		QString description() const {return m_description;};
 
 		void addStyle(const QString &styleUrl, const QString &styleContent) {m_styles.insert({styleUrl,styleContent});};
-		void addItem(AbstractKmlItem *item) {m_kmlItems.push_back(item);};
+		void addItem(std::unique_ptr<AbstractKmlItem>&& item) {m_kmlItems.push_back(std::move(item));};
 
 
 		QString toString() const
@@ -46,7 +47,7 @@ class KmlFile
 			str += "\t\t<description>" + m_description + "</description>\n";
 
 			for (const auto& [id, content] : m_styles) {str += "\t\t<Style id=\"" + id + "\">" + content + "</Style>\n";}
-			for (AbstractKmlItem *item : m_kmlItems) {str += item->toString(2);}
+			for (const std::unique_ptr<AbstractKmlItem> &item : m_kmlItems) {str += item->toString(2);}
 
 			str += "\t</Document>\n";
 			str += "</kml>\n";
@@ -58,7 +59,7 @@ class KmlFile
 		QString m_name;
 		QString m_description;
 		std::map<QString,QString> m_styles; // the key is the id (or url), the value is the xml content
-		std::vector<AbstractKmlItem*> m_kmlItems;
+		std::vector<std::unique_ptr<AbstractKmlItem>> m_kmlItems;
 };
 
 
