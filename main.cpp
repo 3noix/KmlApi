@@ -4,6 +4,7 @@
 #include <QFile>
 
 #include "KmlFile.h"
+#include "KmlFolder.h"
 #include "KmlPoint.h"
 #include "KmlTrajectory.h"
 
@@ -30,6 +31,12 @@ int main(int argc, char *argv[])
 	traj->addPoint(Point{1.47,43.53,158});
 	traj->addPoint(Point{1.47,43.63,162});
 	kml.addItem(traj);
+
+	// folder test
+	KmlPoint *p3 = new KmlPoint{"Point 3", Point{1.335454,43.586060,151.539028}, "#paddleGreenDot", AltitudeMode::ClampToGround};
+	KmlFolder *folder = new KmlFolder{"TestFolder"};
+	folder->addItem(p3);
+	kml.addItem(folder);
 
 	// write file
 	QString filePath = QCoreApplication::applicationDirPath() + "/test.kml";
