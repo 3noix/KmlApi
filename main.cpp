@@ -1,7 +1,6 @@
 #include <iostream>
 #include <QCoreApplication>
 #include <QString>
-#include <QFile>
 
 #include "KmlFile.h"
 #include "KmlFolder.h"
@@ -40,18 +39,14 @@ int main(int argc, char *argv[])
 
 	// write file
 	QString filePath = QCoreApplication::applicationDirPath() + "/test.kml";
-	QFile file{filePath};
-	if (!file.open(QIODevice::WriteOnly))
+	if (!kmlFile.write(filePath))
 	{
 		std::cout << "Failed to create kml file" << std::endl;
 		std::cout << "Press Enter to terminate" << std::endl;
 		std::cin.get();
 		return 1;
 	}
-	file.write(kmlFile.toString().toUtf8());
-	file.close();
-	
-	// the end
+
 	std::cout << "Kml file created" << std::endl;
 	std::cout << "Press Enter to terminate" << std::endl;
 	std::cin.get();

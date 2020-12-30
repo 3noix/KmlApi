@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include <QString>
+#include <QFile>
 #include "AbstractKmlItem.h"
 
 
@@ -52,6 +53,15 @@ class KmlFile
 			str += "\t</Document>\n";
 			str += "</kml>\n";
 			return str;
+		};
+
+		bool write(const QString &filePath)
+		{
+			QFile file{filePath};
+			if (!file.open(QIODevice::WriteOnly)) {return false;}
+			file.write(this->toString().toUtf8());
+			file.close();
+			return true;
 		};
 		
 		
