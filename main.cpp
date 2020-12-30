@@ -4,6 +4,8 @@
 #include <QFile>
 
 #include "KmlFile.h"
+#include "KmlPoint.h"
+#include "KmlTrajectory.h"
 
 
 int main(int argc, char *argv[])
@@ -14,20 +16,20 @@ int main(int argc, char *argv[])
 	KmlFile kml{"My kml test file"};
 
 	// point 1
-	SpecialPoint p1{"Departure", Point{1.37,43.63,151}, "#start", AltitudeMode::ClampToGround};
-	kml.addSpecialPoint(p1);
+	KmlPoint *p1 = new KmlPoint{"Departure", Point{1.37,43.63,151}, "#paddleGreenDot", AltitudeMode::ClampToGround};
+	kml.addItem(p1);
 
 	// point 2
-	SpecialPoint p2{"Arrival", Point{1.47,43.63,163}, "#end", AltitudeMode::ClampToGround};
-	kml.addSpecialPoint(p2);
+	KmlPoint *p2 = new KmlPoint{"Arrival", Point{1.47,43.63,163}, "#paddleRedDot", AltitudeMode::ClampToGround};
+	kml.addItem(p2);
 
 	// trajectory
-	Trajectory traj{"Trajectory", "#track", AltitudeMode::ClampToGround};
-	traj.addPoint(Point{1.37,43.63,151});
-	traj.addPoint(Point{1.37,43.53,154});
-	traj.addPoint(Point{1.47,43.53,158});
-	traj.addPoint(Point{1.47,43.63,162});
-	kml.addTrajectory(traj);
+	KmlTrajectory *traj = new KmlTrajectory{"Trajectory", "#blueLine5", AltitudeMode::ClampToGround};
+	traj->addPoint(Point{1.37,43.63,151});
+	traj->addPoint(Point{1.37,43.53,154});
+	traj->addPoint(Point{1.47,43.53,158});
+	traj->addPoint(Point{1.47,43.63,162});
+	kml.addItem(traj);
 
 	// write file
 	QString filePath = QCoreApplication::applicationDirPath() + "/test.kml";
