@@ -16,6 +16,7 @@ class AbstractKmlItem
 		AbstractKmlItem& operator=(AbstractKmlItem &&other) = default;
 		virtual ~AbstractKmlItem() = default;
 
+
 		virtual QString toString(int tabs = 0) const = 0;
 
 		void setName(const QString &name) {m_name = name;};

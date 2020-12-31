@@ -14,7 +14,7 @@ using Function = std::function<double(double)>;
 class KmlTrajectory : public AbstractKmlItem
 {
 	public:
-		KmlTrajectory(const QString &name, const QString &styleUrl, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractKmlItem{name}
+		KmlTrajectory(const QString &name, const QString &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractKmlItem{name}
 		{
 			this->setStyleUrl(styleUrl);
 			m_altMode = altMode;

@@ -9,7 +9,7 @@
 class KmlPoint : public AbstractKmlItem
 {
 	public:
-		KmlPoint(const QString &name, const Point &p, const QString &styleUrl, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractKmlItem{name}
+		KmlPoint(const QString &name, const Point &p, const QString &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractKmlItem{name}
 		{
 			m_point = p;
 			this->setStyleUrl(styleUrl);
