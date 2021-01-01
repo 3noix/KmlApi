@@ -2,7 +2,7 @@
 #define KML_ALTITUDE_MODE
 
 
-#include <QString>
+#include <string>
 
 
 namespace Kml
@@ -16,7 +16,7 @@ enum class AltitudeMode
 	RelativeToSeaFloor
 };
 
-QString altitudeModeToStr(AltitudeMode am)
+std::string altitudeModeToStr(AltitudeMode am)
 {
 	if (am == AltitudeMode::Absolute)           {return "<altitudeMode>absolute</altitudeMode>";}
 	if (am == AltitudeMode::ClampToGround)      {return "<altitudeMode>clampToGround</altitudeMode>";}

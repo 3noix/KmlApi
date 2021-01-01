@@ -1,6 +1,5 @@
 #include <iostream>
 #include <QCoreApplication>
-#include <QString>
 #include "KmlApi.h"
 
 
@@ -34,7 +33,7 @@ int main(int argc, char *argv[])
 	kmlDoc.addItem(std::move(folder));
 
 	// write file
-	QString filePath = QCoreApplication::applicationDirPath() + "/test.kml";
+	std::string filePath = QCoreApplication::applicationDirPath().toStdString() + "/test.kml";
 	if (!kmlDoc.write(filePath))
 	{
 		std::cout << "Failed to create kml file" << std::endl;

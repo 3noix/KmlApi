@@ -5,8 +5,8 @@
 #include <map>
 #include <vector>
 #include <memory>
-#include <QString>
-#include <QFile>
+#include <string>
+#include <fstream>
 #include "KmlAbstractItem.h"
 
 namespace Kml
@@ -14,7 +14,7 @@ namespace Kml
 class Document
 {
 	public:
-		Document(const QString &name, const QString &description = "<![CDATA[]]>")
+		Document(const std::string &name, const std::string &description = "<![CDATA[]]>")
 		{
 			m_name = name;
 			m_description = description;
@@ -30,19 +30,19 @@ class Document
 		~Document() = default;
 
 
-		void setName(const QString &name) {m_name = name;};
-		QString name() const {return m_name;};
+		void setName(const std::string &name) {m_name = name;};
+		std::string name() const {return m_name;};
 
-		void setDescription(const QString &description) {m_description = description;};
-		QString description() const {return m_description;};
+		void setDescription(const std::string &description) {m_description = description;};
+		std::string description() const {return m_description;};
 
-		void addStyle(const QString &styleUrl, const QString &styleContent) {m_styles.insert({styleUrl,styleContent});};
+		void addStyle(const std::string &styleUrl, const std::string &styleContent) {m_styles.insert({styleUrl,styleContent});};
 		void addItem(std::unique_ptr<AbstractItem>&& item) {m_kmlItems.push_back(std::move(item));};
 
 
-		QString toString() const
+		std::string toString() const
 		{
-			QString str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+			std::string str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 			str += "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\">\n";
 			str += "\t<Document>\n";
 			str += "\t\t<name>" + m_name + "</name>\n";
@@ -56,20 +56,20 @@ class Document
 			return str;
 		};
 
-		bool write(const QString &filePath)
+		bool write(const std::string &filePath)
 		{
-			QFile file{filePath};
-			if (!file.open(QIODevice::WriteOnly)) {return false;}
-			file.write(this->toString().toUtf8());
+			std::ofstream file{filePath};
+			if (file.fail()) {return false;}
+			file << this->toString();
 			file.close();
 			return true;
 		};
 		
 		
 	private:
-		QString m_name;
-		QString m_description;
-		std::map<QString,QString> m_styles; // the key is the id (or url), the value is the xml content
+		std::string m_name;
+		std::string m_description;
+		std::map<std::string,std::string> m_styles; // the key is the id (or url), the value is the xml content
 		std::vector<std::unique_ptr<AbstractItem>> m_kmlItems;
 };
 }

@@ -12,7 +12,7 @@ namespace Kml
 class Folder : public AbstractItem
 {
 	public:
-		Folder(const QString &name) : AbstractItem{name} {};
+		Folder(const std::string &name) : AbstractItem{name} {};
 		Folder(const Folder &other) = default;
 		Folder(Folder &&other) = default;
 		Folder& operator=(const Folder &other) = default;
@@ -25,10 +25,10 @@ class Folder : public AbstractItem
 
 		void addItem(std::unique_ptr<AbstractItem>&& item) {m_childItems.push_back(std::move(item));};
 		
-		virtual QString toString(int tabs = 0) const override final
+		virtual std::string toString(std::size_t tabs = 0) const override final
 		{
-			QString prefix{tabs,'\t'};
-			QString str;
+			std::string prefix(tabs,'\t');
+			std::string str;
 			str += prefix + "<Folder>\n";
 			str += prefix + "\t<name>" + this->name() + "</name>\n";
 			str += prefix + "\t<description>" + this->description() + "</description>\n";

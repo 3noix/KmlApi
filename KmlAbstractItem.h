@@ -2,8 +2,7 @@
 #define KML_ABSTRACT_ITEM
 
 
-#include <QString>
-#include "KmlAltitudeMode.h"
+#include <string>
 
 
 namespace Kml
@@ -11,7 +10,7 @@ namespace Kml
 class AbstractItem
 {
 	public:
-		AbstractItem(const QString &name) {m_name = name;};
+		AbstractItem(const std::string &name) {m_name = name;};
 		AbstractItem(const AbstractItem &other) = default;
 		AbstractItem(AbstractItem &&other) = default;
 		AbstractItem& operator=(const AbstractItem &other) = default;
@@ -19,25 +18,25 @@ class AbstractItem
 		virtual ~AbstractItem() = default;
 
 
-		virtual QString toString(int tabs = 0) const = 0;
+		virtual std::string toString(std::size_t tabs = 0) const = 0;
 
-		void setName(const QString &name) {m_name = name;};
-		QString name() const {return m_name;};
+		void setName(const std::string &name) {m_name = name;};
+		std::string name() const {return m_name;};
 
-		void setDescription(const QString &description) {m_description = description;};
-		QString description() const {return m_description;};
+		void setDescription(const std::string &description) {m_description = description;};
+		std::string description() const {return m_description;};
 
-		void setStyleUrl(const QString &styleUrl) {m_styleUrl = styleUrl;};
-		QString styleUrl() const {return m_styleUrl;};
+		void setStyleUrl(const std::string &styleUrl) {m_styleUrl = styleUrl;};
+		std::string styleUrl() const {return m_styleUrl;};
 
 		void setVisible(bool bVisible) {m_isVisible = bVisible;};
 		bool isVisible() const {return m_isVisible;};
 		
 		
 	private:
-		QString m_name;
-		QString m_description = "<![CDATA[]]>";
-		QString m_styleUrl;
+		std::string m_name;
+		std::string m_description = "<![CDATA[]]>";
+		std::string m_styleUrl;
 		bool m_isVisible = true;
 };
 }

@@ -4,6 +4,7 @@
 
 #include "KmlAbstractItem.h"
 #include "KmlSimplePoint.h"
+#include "KmlAltitudeMode.h"
 
 
 namespace Kml
@@ -11,7 +12,7 @@ namespace Kml
 class SpecialPoint : public AbstractItem
 {
 	public:
-		SpecialPoint(const QString &name, const SimplePoint &p, const QString &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractItem{name}
+		SpecialPoint(const std::string &name, const SimplePoint &p, const std::string &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractItem{name}
 		{
 			m_point = p;
 			this->setStyleUrl(styleUrl);
@@ -25,10 +26,10 @@ class SpecialPoint : public AbstractItem
 		virtual ~SpecialPoint() = default;
 		
 
-		virtual QString toString(int tabs = 0) const override final
+		virtual std::string toString(std::size_t tabs = 0) const override final
 		{
-			QString prefix{tabs,'\t'};
-			QString str;
+			std::string prefix(tabs,'\t');
+			std::string str;
 			str += prefix + "<Placemark>\n";
 			str += prefix + "\t<name>" + this->name() + "</name>\n";
 			str += prefix + "\t<description>" + this->description() + "</description>\n";
@@ -36,7 +37,7 @@ class SpecialPoint : public AbstractItem
 			str += prefix + "\t<visible>" + (this->isVisible() ? "1" : "0") + "</visible>\n";
 			str += prefix + "\t<Point>\n";
 			str += prefix + "\t\t" + altitudeModeToStr(m_altMode) + "\n";
-			str += prefix + "\t\t<coordinates>" + QString::number(m_point.lon) + "," + QString::number(m_point.lat) + "," + QString::number(m_point.alt) + "</coordinates>\n";
+			str += prefix + "\t\t<coordinates>" + std::to_string(m_point.lon) + "," + std::to_string(m_point.lat) + "," + std::to_string(m_point.alt) + "</coordinates>\n";
 			str += prefix + "\t</Point>\n";
 			str += prefix + "</Placemark>\n";
 			return str;
