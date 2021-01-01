@@ -2,29 +2,31 @@
 #define KML_TRAJECTORY
 
 
-#include "AbstractKmlItem.h"
+#include "KmlAbstractItem.h"
+#include "KmlSimplePoint.h"
 #include <vector>
 #include <functional>
 #include <cmath>
-#include "Point.h"
 
 using Function = std::function<double(double)>;
 
 
-class KmlTrajectory : public AbstractKmlItem
+namespace Kml
+{
+class Trajectory : public AbstractItem
 {
 	public:
-		KmlTrajectory(const QString &name, const QString &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractKmlItem{name}
+		Trajectory(const QString &name, const QString &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractItem{name}
 		{
 			this->setStyleUrl(styleUrl);
 			m_altMode = altMode;
 		};
 
-		KmlTrajectory(const KmlTrajectory &other) = default;
-		KmlTrajectory(KmlTrajectory &&other) = default;
-		KmlTrajectory& operator=(const KmlTrajectory &other) = default;
-		KmlTrajectory& operator=(KmlTrajectory &&other) = default;
-		virtual ~KmlTrajectory() = default;
+		Trajectory(const Trajectory &other) = default;
+		Trajectory(Trajectory &&other) = default;
+		Trajectory& operator=(const Trajectory &other) = default;
+		Trajectory& operator=(Trajectory &&other) = default;
+		virtual ~Trajectory() = default;
 
 
 		virtual QString toString(int tabs = 0) const override final
@@ -37,10 +39,10 @@ class KmlTrajectory : public AbstractKmlItem
 			str += prefix + "\t<styleUrl>" + this->styleUrl() + "</styleUrl>\n";
 			str += prefix + "\t<visible>" + (this->isVisible() ? "1" : "0") + "</visible>\n";
 			str += prefix + "\t<LineString>\n";
-			str += prefix + "\t\t" + AbstractKmlItem::altitudeModeToStr(m_altMode) + "\n";
+			str += prefix + "\t\t" + altitudeModeToStr(m_altMode) + "\n";
 			str += prefix + "\t\t<tessellate>1</tessellate>\n";
 			str += prefix + "\t\t<coordinates>\n";
-			for (const Point &p : m_points) {str += prefix + "\t\t\t" + QString::number(p.lon) + "," + QString::number(p.lat) + "," + QString::number(p.alt) + "\n";}
+			for (const SimplePoint &p : m_points) {str += prefix + "\t\t\t" + QString::number(p.lon) + "," + QString::number(p.lat) + "," + QString::number(p.alt) + "\n";}
 			str += prefix + "\t\t</coordinates>\n";
 			str += prefix + "\t</LineString>\n";
 			str += prefix + "</Placemark>\n";
@@ -57,17 +59,18 @@ class KmlTrajectory : public AbstractKmlItem
 			for (double t=t1; t<=t2; t+=dt) {m_points.emplace_back(lon(t),lat(t),alt(t));}
 			return true;
 		};
-		void setPoints(const std::vector<Point> &points) {m_points = points;};
-		void addPoint(const Point &p) {m_points.push_back(p);};
+		void setPoints(const std::vector<SimplePoint> &points) {m_points = points;};
+		void addPoint(const SimplePoint &p) {m_points.push_back(p);};
 
 		void setAltitudeMode(AltitudeMode am) {m_altMode = am;};
 		AltitudeMode altitudeMode() const {return m_altMode;};
 		
 
 	private:
-		std::vector<Point> m_points;
+		std::vector<SimplePoint> m_points;
 		AltitudeMode m_altMode = AltitudeMode::Absolute;
 };
+}
 
 
 #endif

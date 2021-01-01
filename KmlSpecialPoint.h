@@ -1,26 +1,28 @@
-#ifndef KML_POINT
-#define KML_POINT
+#ifndef KML_SPECIAL_POINT
+#define KML_SPECIAL_POINT
 
 
-#include "AbstractKmlItem.h"
-#include "Point.h"
+#include "KmlAbstractItem.h"
+#include "KmlSimplePoint.h"
 
 
-class KmlPoint : public AbstractKmlItem
+namespace Kml
+{
+class SpecialPoint : public AbstractItem
 {
 	public:
-		KmlPoint(const QString &name, const Point &p, const QString &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractKmlItem{name}
+		SpecialPoint(const QString &name, const SimplePoint &p, const QString &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractItem{name}
 		{
 			m_point = p;
 			this->setStyleUrl(styleUrl);
 			m_altMode = altMode;
 		};
 
-		KmlPoint(const KmlPoint &other) = default;
-		KmlPoint(KmlPoint &&other) = default;
-		KmlPoint& operator=(const KmlPoint &other) = default;
-		KmlPoint& operator=(KmlPoint &&other) = default;
-		virtual ~KmlPoint() = default;
+		SpecialPoint(const SpecialPoint &other) = default;
+		SpecialPoint(SpecialPoint &&other) = default;
+		SpecialPoint& operator=(const SpecialPoint &other) = default;
+		SpecialPoint& operator=(SpecialPoint &&other) = default;
+		virtual ~SpecialPoint() = default;
 		
 
 		virtual QString toString(int tabs = 0) const override final
@@ -33,24 +35,25 @@ class KmlPoint : public AbstractKmlItem
 			str += prefix + "\t<styleUrl>" + this->styleUrl() + "</styleUrl>\n";
 			str += prefix + "\t<visible>" + (this->isVisible() ? "1" : "0") + "</visible>\n";
 			str += prefix + "\t<Point>\n";
-			str += prefix + "\t\t" + AbstractKmlItem::altitudeModeToStr(m_altMode) + "\n";
+			str += prefix + "\t\t" + altitudeModeToStr(m_altMode) + "\n";
 			str += prefix + "\t\t<coordinates>" + QString::number(m_point.lon) + "," + QString::number(m_point.lat) + "," + QString::number(m_point.alt) + "</coordinates>\n";
 			str += prefix + "\t</Point>\n";
 			str += prefix + "</Placemark>\n";
 			return str;
 		};
 
-		void setPoint(const Point &p) {m_point = p;};
-		const Point& point() const {return m_point;};
+		void setPoint(const SimplePoint &p) {m_point = p;};
+		const SimplePoint& point() const {return m_point;};
 
 		void setAltitudeMode(AltitudeMode am) {m_altMode = am;};
 		AltitudeMode altitudeMode() const {return m_altMode;};
 
 
 	private:
-		Point m_point;
+		SimplePoint m_point;
 		AltitudeMode m_altMode = AltitudeMode::Absolute;
 };
+}
 
 
 #endif

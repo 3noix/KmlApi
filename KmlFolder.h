@@ -2,26 +2,28 @@
 #define KML_FOLDER
 
 
-#include "AbstractKmlItem.h"
+#include "KmlAbstractItem.h"
 #include <vector>
 #include <memory>
 
 
-class KmlFolder : public AbstractKmlItem
+namespace Kml
+{
+class Folder : public AbstractItem
 {
 	public:
-		KmlFolder(const QString &name) : AbstractKmlItem{name} {};
-		KmlFolder(const KmlFolder &other) = default;
-		KmlFolder(KmlFolder &&other) = default;
-		KmlFolder& operator=(const KmlFolder &other) = default;
-		KmlFolder& operator=(KmlFolder &&other) = default;
-		virtual ~KmlFolder() = default;
+		Folder(const QString &name) : AbstractItem{name} {};
+		Folder(const Folder &other) = default;
+		Folder(Folder &&other) = default;
+		Folder& operator=(const Folder &other) = default;
+		Folder& operator=(Folder &&other) = default;
+		virtual ~Folder() = default;
 
 
 		void setExpanded(bool expanded);
 		bool isExpanded() const;
 
-		void addItem(std::unique_ptr<AbstractKmlItem>&& item) {m_childItems.push_back(std::move(item));};
+		void addItem(std::unique_ptr<AbstractItem>&& item) {m_childItems.push_back(std::move(item));};
 		
 		virtual QString toString(int tabs = 0) const override final
 		{
@@ -33,7 +35,7 @@ class KmlFolder : public AbstractKmlItem
 			str += prefix + "\t<styleUrl>" + this->styleUrl() + "</styleUrl>\n";
 			str += prefix + "\t<visible>" + (this->isVisible() ? "1" : "0") + "</visible>\n";
 			str += prefix + "\t<open>" + (m_expanded ? "1" : "0") + "</open>\n";
-			for (const std::unique_ptr<AbstractKmlItem> &item : m_childItems) {str += item->toString(tabs+1);}
+			for (const std::unique_ptr<AbstractItem> &item : m_childItems) {str += item->toString(tabs+1);}
 			str += prefix + "</Folder>\n";
 			return str;
 		};
@@ -41,8 +43,9 @@ class KmlFolder : public AbstractKmlItem
 
 	private:
 		bool m_expanded = false;
-		std::vector<std::unique_ptr<AbstractKmlItem>> m_childItems;
+		std::vector<std::unique_ptr<AbstractItem>> m_childItems;
 };
+}
 
 
 #endif

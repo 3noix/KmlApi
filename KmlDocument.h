@@ -1,5 +1,5 @@
-#ifndef KML_FILE
-#define KML_FILE
+#ifndef KML_DOCUMENT
+#define KML_DOCUMENT
 
 
 #include <map>
@@ -7,13 +7,14 @@
 #include <memory>
 #include <QString>
 #include <QFile>
-#include "AbstractKmlItem.h"
+#include "KmlAbstractItem.h"
 
-
-class KmlFile
+namespace Kml
+{
+class Document
 {
 	public:
-		KmlFile(const QString &name, const QString &description = "<![CDATA[]]>")
+		Document(const QString &name, const QString &description = "<![CDATA[]]>")
 		{
 			m_name = name;
 			m_description = description;
@@ -22,11 +23,11 @@ class KmlFile
 			m_styles.insert({"blueLine5","<LineStyle><color>73FF0000</color><width>5</width></LineStyle>"});
 		};
 
-		KmlFile(const KmlFile &other) = delete;
-		KmlFile(KmlFile &&other) = delete;
-		KmlFile& operator=(const KmlFile &other) = delete;
-		KmlFile& operator=(KmlFile &&other) = delete;
-		~KmlFile() = default;
+		Document(const Document &other) = delete;
+		Document(Document &&other) = delete;
+		Document& operator=(const Document &other) = delete;
+		Document& operator=(Document &&other) = delete;
+		~Document() = default;
 
 
 		void setName(const QString &name) {m_name = name;};
@@ -36,7 +37,7 @@ class KmlFile
 		QString description() const {return m_description;};
 
 		void addStyle(const QString &styleUrl, const QString &styleContent) {m_styles.insert({styleUrl,styleContent});};
-		void addItem(std::unique_ptr<AbstractKmlItem>&& item) {m_kmlItems.push_back(std::move(item));};
+		void addItem(std::unique_ptr<AbstractItem>&& item) {m_kmlItems.push_back(std::move(item));};
 
 
 		QString toString() const
@@ -48,7 +49,7 @@ class KmlFile
 			str += "\t\t<description>" + m_description + "</description>\n";
 
 			for (const auto& [id, content] : m_styles) {str += "\t\t<Style id=\"" + id + "\">" + content + "</Style>\n";}
-			for (const std::unique_ptr<AbstractKmlItem> &item : m_kmlItems) {str += item->toString(2);}
+			for (const std::unique_ptr<AbstractItem> &item : m_kmlItems) {str += item->toString(2);}
 
 			str += "\t</Document>\n";
 			str += "</kml>\n";
@@ -69,8 +70,9 @@ class KmlFile
 		QString m_name;
 		QString m_description;
 		std::map<QString,QString> m_styles; // the key is the id (or url), the value is the xml content
-		std::vector<std::unique_ptr<AbstractKmlItem>> m_kmlItems;
+		std::vector<std::unique_ptr<AbstractItem>> m_kmlItems;
 };
+}
 
 
 #endif
