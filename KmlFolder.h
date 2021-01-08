@@ -20,8 +20,8 @@ class Folder : public AbstractItem
 		virtual ~Folder() = default;
 
 
-		void setExpanded(bool expanded);
-		bool isExpanded() const;
+		void setExpanded(bool expanded) {m_expanded = expanded;};
+		bool isExpanded() const {return m_expanded;};
 
 		void addItem(std::unique_ptr<AbstractItem>&& item) {m_childItems.push_back(std::move(item));};
 		

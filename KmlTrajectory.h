@@ -42,6 +42,8 @@ class Trajectory : public AbstractItem
 			str += prefix + "\t<visible>" + (this->isVisible() ? "1" : "0") + "</visible>\n";
 			str += prefix + "\t<LineString>\n";
 			str += prefix + "\t\t" + altitudeModeToStr(m_altMode) + "\n";
+			str += prefix + "\t\t<extrude>" + (m_extruded ? "1" : "0") + "</extrude>\n";
+			if (m_altitudeOffset != 0.0) {str += prefix + "\t\t<gx:altitudeOffset>" + std::to_string(m_altitudeOffset) + "</gx:altitudeOffset>\n";}
 			str += prefix + "\t\t<tessellate>1</tessellate>\n";
 			str += prefix + "\t\t<coordinates>\n";
 			for (const SimplePoint &p : m_points) {str += prefix + "\t\t\t" + std::to_string(p.lon) + "," + std::to_string(p.lat) + "," + std::to_string(p.alt) + "\n";}
@@ -64,12 +66,20 @@ class Trajectory : public AbstractItem
 		void setPoints(const std::vector<SimplePoint> &points) {m_points = points;};
 		void addPoint(const SimplePoint &p) {m_points.push_back(p);};
 
+		void setExtruded(bool b) {m_extruded = b;};
+		bool isExtruded() const {return m_extruded;};
+
+		void setAltitudeOffset(double o) {m_altitudeOffset = o;};
+		double altitudeOffset() const {return m_altitudeOffset;};
+
 		void setAltitudeMode(AltitudeMode am) {m_altMode = am;};
 		AltitudeMode altitudeMode() const {return m_altMode;};
 		
 
 	private:
 		std::vector<SimplePoint> m_points;
+		bool m_extruded = true;
+		double m_altitudeOffset = 0.0;
 		AltitudeMode m_altMode = AltitudeMode::Absolute;
 };
 }

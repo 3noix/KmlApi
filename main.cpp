@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 	traj->addPoint(Kml::SimplePoint{1.37,43.53,154});
 	traj->addPoint(Kml::SimplePoint{1.47,43.53,158});
 	traj->addPoint(Kml::SimplePoint{1.47,43.63,162});
+	traj->setAltitudeOffset(10);
 	kmlDoc.addItem(std::move(traj));
 
 	// folder test

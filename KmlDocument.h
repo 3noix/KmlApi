@@ -36,6 +36,12 @@ class Document
 		void setDescription(const std::string &description) {m_description = description;};
 		std::string description() const {return m_description;};
 
+		void setExpanded(bool expanded) {m_expanded = expanded;};
+		bool isExpanded() const {return m_expanded;};
+
+		void setVisible(bool bVisible) {m_isVisible = bVisible;};
+		bool isVisible() const {return m_isVisible;};
+
 		void addStyle(const std::string &styleUrl, const std::string &styleContent) {m_styles.insert({styleUrl,styleContent});};
 		void addItem(std::unique_ptr<AbstractItem>&& item) {m_kmlItems.push_back(std::move(item));};
 
@@ -47,6 +53,8 @@ class Document
 			str += "\t<Document>\n";
 			str += "\t\t<name>" + m_name + "</name>\n";
 			str += "\t\t<description>" + m_description + "</description>\n";
+			str += "\t\t<open>" + std::string{m_expanded ? "1" : "0"} + "</open>\n";
+			str += "\t\t<visible>" + std::string{m_isVisible ? "1" : "0"} + "</visible>\n";
 
 			for (const auto& [id, content] : m_styles) {str += "\t\t<Style id=\"" + id + "\">" + content + "</Style>\n";}
 			for (const std::unique_ptr<AbstractItem> &item : m_kmlItems) {str += item->toString(2);}
@@ -69,6 +77,8 @@ class Document
 	private:
 		std::string m_name;
 		std::string m_description;
+		bool m_expanded = false;
+		bool m_isVisible = true;
 		std::map<std::string,std::string> m_styles; // the key is the id (or url), the value is the xml content
 		std::vector<std::unique_ptr<AbstractItem>> m_kmlItems;
 };

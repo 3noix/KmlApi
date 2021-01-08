@@ -36,6 +36,7 @@ class SpecialPoint : public AbstractItem
 			str += prefix + "\t<styleUrl>" + this->styleUrl() + "</styleUrl>\n";
 			str += prefix + "\t<visible>" + (this->isVisible() ? "1" : "0") + "</visible>\n";
 			str += prefix + "\t<Point>\n";
+			str += prefix + "\t\t<extrude>" + (m_extruded ? "1" : "0") + "</extrude>\n";
 			str += prefix + "\t\t" + altitudeModeToStr(m_altMode) + "\n";
 			str += prefix + "\t\t<coordinates>" + std::to_string(m_point.lon) + "," + std::to_string(m_point.lat) + "," + std::to_string(m_point.alt) + "</coordinates>\n";
 			str += prefix + "\t</Point>\n";
@@ -46,12 +47,16 @@ class SpecialPoint : public AbstractItem
 		void setPoint(const SimplePoint &p) {m_point = p;};
 		const SimplePoint& point() const {return m_point;};
 
+		void setExtruded(bool b) {m_extruded = b;};
+		bool isExtruded() const {return m_extruded;};
+
 		void setAltitudeMode(AltitudeMode am) {m_altMode = am;};
 		AltitudeMode altitudeMode() const {return m_altMode;};
 
 
 	private:
 		SimplePoint m_point;
+		bool m_extruded = true;
 		AltitudeMode m_altMode = AltitudeMode::Absolute;
 };
 }
