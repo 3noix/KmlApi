@@ -8,7 +8,20 @@ int main(int argc, char *argv[])
 	QCoreApplication app{argc,argv};
 	Q_UNUSED(app)
 
+
 	Kml::Document kmlDoc{"My kml test file"};
+
+	// styles test
+	Kml::Style styleTest;
+	Kml::LineStyle lineStyle;
+	Kml::PolyStyle polyStyle;
+	lineStyle.setColor(Kml::Color{"#ff00ff7f"});
+	lineStyle.setWidth(5);
+	polyStyle.setFill(true);
+	polyStyle.setOutline(true);
+	styleTest.lineStyle = lineStyle;
+	styleTest.polyStyle = polyStyle;
+	kmlDoc.addStyle("styleTest", styleTest);
 
 	// point 1
 	auto pt1 = std::make_unique<Kml::SpecialPoint>("Departure", Kml::SimplePoint{1.37,43.63,151}, "#paddleGreenDot", Kml::AltitudeMode::ClampToGround);

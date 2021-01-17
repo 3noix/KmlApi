@@ -8,6 +8,7 @@
 #include <string>
 #include <fstream>
 #include "KmlAbstractItem.h"
+#include "KmlStyle.h"
 
 namespace Kml
 {
@@ -18,9 +19,15 @@ class Document
 		{
 			m_name = name;
 			m_description = description;
-			m_styles.insert({"paddleGreenDot","<IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png</href></Icon></IconStyle>"});
-			m_styles.insert({"paddleRedDot","<IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png</href></Icon></IconStyle>"});
-			m_styles.insert({"blueLine5","<LineStyle><color>73FF0000</color><width>5</width></LineStyle>"});
+
+			// default styles
+			Style paddleGreenDot, paddleRedDot, blueLine5;
+			paddleGreenDot.rawContent = "<IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png</href></Icon></IconStyle>";
+			paddleRedDot.rawContent   = "<IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png</href></Icon></IconStyle>";
+			blueLine5.rawContent      = "<LineStyle><color>73FF0000</color><width>5</width></LineStyle><PolyStyle><fill>1</fill><outline>1</outline></PolyStyle>";
+			m_styles.insert({"paddleGreenDot", paddleGreenDot});
+			m_styles.insert({"paddleRedDot", paddleRedDot});
+			m_styles.insert({"blueLine5", blueLine5});
 		};
 
 		Document(const Document &other) = delete;
@@ -42,7 +49,7 @@ class Document
 		void setVisible(bool bVisible) {m_isVisible = bVisible;};
 		bool isVisible() const {return m_isVisible;};
 
-		void addStyle(const std::string &styleUrl, const std::string &styleContent) {m_styles.insert({styleUrl,styleContent});};
+		void addStyle(const std::string &styleUrl, const Style &style) {m_styles.insert({styleUrl,style});};
 		void addItem(std::unique_ptr<AbstractItem>&& item) {m_kmlItems.push_back(std::move(item));};
 
 
@@ -56,7 +63,7 @@ class Document
 			str += "\t\t<open>" + std::string{m_expanded ? "1" : "0"} + "</open>\n";
 			str += "\t\t<visible>" + std::string{m_isVisible ? "1" : "0"} + "</visible>\n";
 
-			for (const auto& [id, content] : m_styles) {str += "\t\t<Style id=\"" + id + "\">" + content + "</Style>\n";}
+			for (const auto& [id, style] : m_styles) {str += style.toString(2,id);}
 			for (const std::unique_ptr<AbstractItem> &item : m_kmlItems) {str += item->toString(2);}
 
 			str += "\t</Document>\n";
@@ -79,7 +86,7 @@ class Document
 		std::string m_description;
 		bool m_expanded = false;
 		bool m_isVisible = true;
-		std::map<std::string,std::string> m_styles; // the key is the id (or url), the value is the xml content
+		std::map<std::string,Style> m_styles; // the key is the id (or url), the value is the xml content
 		std::vector<std::unique_ptr<AbstractItem>> m_kmlItems;
 };
 }
