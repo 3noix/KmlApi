@@ -34,18 +34,18 @@ class Style
 				if (labelStyle)  {str += labelStyle->toString(tabs+1);}
 				if (lineStyle)   {str += lineStyle->toString(tabs+1);}
 				if (polyStyle)   {str += polyStyle->toString(tabs+1);}
-				if (baloonStyle) {str += baloonStyle->toString(tabs+1);}
+				if (balloonStyle) {str += balloonStyle->toString(tabs+1);}
 			}
 
 			str += prefix + "</Style>\n";
 			return str;
 		};
 		
-		std::optional<IconStyle>   iconStyle;
-		std::optional<LabelStyle>  labelStyle;
-		std::optional<LineStyle>   lineStyle;
-		std::optional<PolyStyle>   polyStyle;
-		std::optional<BaloonStyle> baloonStyle;
+		std::optional<IconStyle>    iconStyle;
+		std::optional<LabelStyle>   labelStyle;
+		std::optional<LineStyle>    lineStyle;
+		std::optional<PolyStyle>    polyStyle;
+		std::optional<BalloonStyle> balloonStyle;
 		
 		std::optional<std::string> rawContent;
 };

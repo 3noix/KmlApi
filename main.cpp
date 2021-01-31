@@ -1,6 +1,6 @@
 #include <iostream>
 #include <QCoreApplication>
-#include "KmlApi.h"
+#include "Kml.h"
 
 
 int main(int argc, char *argv[])
@@ -13,22 +13,14 @@ int main(int argc, char *argv[])
 
 	// styles test
 	Kml::Style styleTest;
-	Kml::LineStyle lineStyle;
-	Kml::PolyStyle polyStyle;
-	lineStyle.setColor(Kml::Color{"#ff00ff7f"});
-	lineStyle.setWidth(5);
-	polyStyle.setFill(true);
-	polyStyle.setOutline(true);
-	styleTest.lineStyle = lineStyle;
-	styleTest.polyStyle = polyStyle;
+	styleTest.lineStyle = Kml::LineStyle{}.setColor({"#ff00ff7f"}).setWidth(5);
+	styleTest.polyStyle = Kml::PolyStyle{}.setFill(true).setOutline(true);
 	kmlDoc.addStyle("styleTest", styleTest);
 
-	// point 1
+	// points
 	auto pt1 = std::make_unique<Kml::SpecialPoint>("Departure", Kml::SimplePoint{1.37,43.63,151}, "#paddleGreenDot", Kml::AltitudeMode::ClampToGround);
+	auto pt2 = std::make_unique<Kml::SpecialPoint>("Arrival",   Kml::SimplePoint{1.47,43.63,163}, "#paddleRedDot",   Kml::AltitudeMode::ClampToGround);
 	kmlDoc.addItem(std::move(pt1));
-
-	// point 2
-	auto pt2 = std::make_unique<Kml::SpecialPoint>("Arrival", Kml::SimplePoint{1.47,43.63,163}, "#paddleRedDot", Kml::AltitudeMode::ClampToGround);
 	kmlDoc.addItem(std::move(pt2));
 
 	// trajectory

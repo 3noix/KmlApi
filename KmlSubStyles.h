@@ -58,18 +58,18 @@ class Icon
 		Icon& operator=(Icon &&other) = default;
 		~Icon() = default;
 
-		void setHref(const std::string &href) {m_href = href;}
-		void setX(int x) {m_x = x;};
-		void setY(int y) {m_y = y;};
-		void setW(int w) {m_w = w;};
-		void setH(int h) {m_h = h;};
-		void setRefreshMode(RefreshMode rm) {m_refreshMode = rm;};
-		void setRefreshInterval(double ri) {m_refreshInterval = ri;};
-		void setViewRefreshMode(ViewRefreshMode vrm) {m_viewRefreshMode = vrm;};
-		void setViewRefreshTime(double vrt) {m_viewRefreshTime = vrt;};
-		void setViewBoundScale(double vbs) {m_viewBoundScale = vbs;};
-		void setViewFormat(const std::string &vf) {m_viewFormat = vf;};
-		void setHttpQuery(const std::string &httpQuery) {m_httpQuery = httpQuery;};
+		Icon& setHref(const std::string &href) {m_href = href; return *this;}
+		Icon& setX(int x) {m_x = x; return *this;};
+		Icon& setY(int y) {m_y = y; return *this;};
+		Icon& setW(int w) {m_w = w; return *this;};
+		Icon& setH(int h) {m_h = h; return *this;};
+		Icon& setRefreshMode(RefreshMode rm) {m_refreshMode = rm; return *this;};
+		Icon& setRefreshInterval(double ri) {m_refreshInterval = ri; return *this;};
+		Icon& setViewRefreshMode(ViewRefreshMode vrm) {m_viewRefreshMode = vrm; return *this;};
+		Icon& setViewRefreshTime(double vrt) {m_viewRefreshTime = vrt; return *this;};
+		Icon& setViewBoundScale(double vbs) {m_viewBoundScale = vbs; return *this;};
+		Icon& setViewFormat(const std::string &vf) {m_viewFormat = vf; return *this;};
+		Icon& setHttpQuery(const std::string &httpQuery) {m_httpQuery = httpQuery; return *this;};
 
 		std::string toString(std::size_t tabs = 0) const
 		{
@@ -127,12 +127,12 @@ class IconStyle
 		IconStyle& operator=(IconStyle &&other) = default;
 		~IconStyle() = default;
 
-		void setColor(Color c) {m_color = c;};
-		void setColorMode(ColorMode cm) {m_colorMode = cm;};
-		void setScale(double s) {m_scale = s;};
-		void setHeading(double h) {m_heading = h;};
-		void setIcon(const Icon &icon) {m_icon = icon;};
-		void setHotspot(Hotspot hs) {m_hotspot = hs;};
+		IconStyle& setColor(Color c) {m_color = c; return *this;};
+		IconStyle& setColorMode(ColorMode cm) {m_colorMode = cm; return *this;};
+		IconStyle& setScale(double s) {m_scale = s; return *this;};
+		IconStyle& setHeading(double h) {m_heading = h; return *this;};
+		IconStyle& setIcon(const Icon &icon) {m_icon = icon; return *this;};
+		IconStyle& setHotspot(Hotspot hs) {m_hotspot = hs; return *this;};
 
 		std::string toString(std::size_t tabs = 0) const
 		{
@@ -170,9 +170,9 @@ class LabelStyle
 		LabelStyle& operator=(LabelStyle &&other) = default;
 		~LabelStyle() = default;
 
-		void setColor(Color c) {m_color = c;};
-		void setColorMode(ColorMode cm) {m_colorMode = cm;};
-		void setScale(double s) {m_scale = s;};
+		LabelStyle& setColor(Color c) {m_color = c; return *this;};
+		LabelStyle& setColorMode(ColorMode cm) {m_colorMode = cm; return *this;};
+		LabelStyle& setScale(double s) {m_scale = s; return *this;};
 
 		std::string toString(std::size_t tabs = 0) const
 		{
@@ -204,13 +204,13 @@ class LineStyle
 		LineStyle& operator=(LineStyle &&other) = default;
 		~LineStyle() = default;
 
-		void setColor(Color c) {m_color = c;};
-		void setColorMode(ColorMode cm) {m_colorMode = cm;};
-		void setWidth(double w) {m_width = w;};
-		void setOuterColor(Color oc) {m_outerColor = oc;};
-		void setOuterWidth(double ow) {m_outerWidth = ow;};
-		void setPhysicalWidth(double pw) {m_physicalWidth = pw;};
-		void setLabelVisible(bool visible) {m_labelVisible = visible;};
+		LineStyle& setColor(Color c) {m_color = c; return *this;};
+		LineStyle& setColorMode(ColorMode cm) {m_colorMode = cm; return *this;};
+		LineStyle& setWidth(double w) {m_width = w; return *this;};
+		LineStyle& setOuterColor(Color oc) {m_outerColor = oc; return *this;};
+		LineStyle& setOuterWidth(double ow) {m_outerWidth = ow; return *this;};
+		LineStyle& setPhysicalWidth(double pw) {m_physicalWidth = pw; return *this;};
+		LineStyle& setLabelVisible(bool visible) {m_labelVisible = visible; return *this;};
 
 		std::string toString(std::size_t tabs = 0) const
 		{
@@ -250,10 +250,10 @@ class PolyStyle
 		PolyStyle& operator=(PolyStyle &&other) = default;
 		~PolyStyle() = default;
 
-		void setColor(Color c) {m_color = c;};
-		void setColorMode(ColorMode cm) {m_colorMode = cm;};
-		void setFill(bool fill) {m_fill = fill;};
-		void setOutline(bool outline) {m_outline = outline;};
+		PolyStyle& setColor(Color c) {m_color = c; return *this;};
+		PolyStyle& setColorMode(ColorMode cm) {m_colorMode = cm; return *this;};
+		PolyStyle& setFill(bool fill) {m_fill = fill; return *this;};
+		PolyStyle& setOutline(bool outline) {m_outline = outline; return *this;};
 
 		std::string toString(std::size_t tabs = 0) const
 		{
@@ -277,19 +277,19 @@ class PolyStyle
 };
 
 
-class BaloonStyle
+class BalloonStyle
 {
 	public:
-		BaloonStyle() = default;
-		BaloonStyle(const BaloonStyle &other) = default;
-		BaloonStyle(BaloonStyle &&other) = default;
-		BaloonStyle& operator=(const BaloonStyle &other) = default;
-		BaloonStyle& operator=(BaloonStyle &&other) = default;
-		~BaloonStyle() = default;
+		BalloonStyle() = default;
+		BalloonStyle(const BalloonStyle &other) = default;
+		BalloonStyle(BalloonStyle &&other) = default;
+		BalloonStyle& operator=(const BalloonStyle &other) = default;
+		BalloonStyle& operator=(BalloonStyle &&other) = default;
+		~BalloonStyle() = default;
 
-		void setBackgroundColor(Color c) {m_backgroundColor = c;};
-		void setTextColor(Color c) {m_textColor = c;};
-		void setText(const std::string &text) {m_text = text;};
+		BalloonStyle& setBackgroundColor(Color c) {m_backgroundColor = c; return *this;};
+		BalloonStyle& setTextColor(Color c) {m_textColor = c; return *this;};
+		BalloonStyle& setText(const std::string &text) {m_text = text; return *this;};
 
 		std::string toString(std::size_t tabs = 0) const
 		{

@@ -1,5 +1,5 @@
-#ifndef KML_API
-#define KML_API
+#ifndef KML
+#define KML
 
 
 #include "KmlDocument.h"
