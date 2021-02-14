@@ -53,7 +53,7 @@ class Document
 		void addItem(std::unique_ptr<AbstractItem>&& item) {m_kmlItems.push_back(std::move(item));};
 
 
-		std::string toString() const
+		std::string headerToString() const
 		{
 			std::string str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 			str += "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\">\n";
@@ -64,11 +64,24 @@ class Document
 			str += "\t\t<visible>" + std::string{m_isVisible ? "1" : "0"} + "</visible>\n";
 
 			for (const auto& [id, style] : m_styles) {str += style.toString(2,id);}
-			for (const std::unique_ptr<AbstractItem> &item : m_kmlItems) {str += item->toString(2);}
-
-			str += "\t</Document>\n";
-			str += "</kml>\n";
 			return str;
+		}
+
+		std::string bodyToString() const
+		{
+			std::string str;
+			for (const std::unique_ptr<AbstractItem> &item : m_kmlItems) {str += item->toString(2);}
+			return str;
+		}
+
+		std::string footerToString() const
+		{
+			return std::string{"\t</Document>\n</kml>\n"};
+		}
+
+		std::string toString() const
+		{
+			return headerToString() + bodyToString() + footerToString();
 		};
 
 		bool write(const std::string &filePath)
