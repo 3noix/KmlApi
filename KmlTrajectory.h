@@ -63,8 +63,22 @@ class Trajectory : public AbstractItem
 			for (double t=t1; t<=t2; t+=dt) {m_points.emplace_back(lon(t),lat(t),alt(t));}
 			return true;
 		};
+		bool setPoints(double t1, double t2, double dt, Function lon, Function lat)
+		{
+			if (t1 > t2 || dt <= 0) {return false;}
+			int n = 1 + std::floor((t2-t1)/dt);
+			m_points.clear();
+			m_points.reserve(n+10);
+
+			for (double t=t1; t<=t2; t+=dt) {m_points.emplace_back(lon(t),lat(t));}
+			m_altMode = AltitudeMode::ClampToGround;
+			return true;
+		};
 		void setPoints(const std::vector<SimplePoint> &points) {m_points = points;};
+
 		void addPoint(const SimplePoint &p) {m_points.push_back(p);};
+		void addPoint(double lon, double lat, double alt) {m_points.emplace_back(lon,lat,alt);};
+		void addPoint(double lon, double lat) {m_points.emplace_back(lon,lat);};
 
 		void setExtruded(bool b) {m_extruded = b;};
 		bool isExtruded() const {return m_extruded;};

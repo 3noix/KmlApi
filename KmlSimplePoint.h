@@ -20,6 +20,13 @@ struct SimplePoint
 		alt = altI;
 	};
 
+	SimplePoint(double lonI, double latI)
+	{
+		lon = lonI;
+		lat = latI;
+		alt = 0.0;
+	};
+
 	double lon;
 	double lat;
 	double alt;

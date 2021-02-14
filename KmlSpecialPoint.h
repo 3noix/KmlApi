@@ -19,6 +19,20 @@ class SpecialPoint : public AbstractItem
 			m_altMode = altMode;
 		};
 
+		SpecialPoint(const std::string &name, double lon, double lat, double alt, const std::string &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractItem{name}
+		{
+			m_point = SimplePoint{lon,lat,alt};
+			this->setStyleUrl(styleUrl);
+			m_altMode = altMode;
+		};
+
+		SpecialPoint(const std::string &name, double lon, double lat, const std::string &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractItem{name}
+		{
+			m_point = SimplePoint{lon,lat,0.0};
+			this->setStyleUrl(styleUrl);
+			m_altMode = altMode;
+		};
+
 		SpecialPoint(const SpecialPoint &other) = default;
 		SpecialPoint(SpecialPoint &&other) = default;
 		SpecialPoint& operator=(const SpecialPoint &other) = default;
@@ -45,6 +59,8 @@ class SpecialPoint : public AbstractItem
 		};
 
 		void setPoint(const SimplePoint &p) {m_point = p;};
+		void setPoint(double lon, double lat, double alt) {m_point = SimplePoint{lon,lat,alt};};
+		void setPoint(double lon, double lat) {m_point = SimplePoint{lon,lat}; m_altMode = AltitudeMode::ClampToGround;};
 		const SimplePoint& point() const {return m_point;};
 
 		void setExtruded(bool b) {m_extruded = b;};
