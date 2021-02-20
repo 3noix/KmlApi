@@ -10,7 +10,7 @@ namespace Kml
 class AbstractItem
 {
 	public:
-		AbstractItem(const std::string &name) {m_name = name;};
+		AbstractItem(const std::string &name);
 		AbstractItem(const AbstractItem &other) = default;
 		AbstractItem(AbstractItem &&other) = default;
 		AbstractItem& operator=(const AbstractItem &other) = default;
@@ -20,17 +20,17 @@ class AbstractItem
 
 		virtual std::string toString(std::size_t tabs = 0) const = 0;
 
-		void setName(const std::string &name) {m_name = name;};
-		std::string name() const {return m_name;};
+		AbstractItem& setName(const std::string &name);
+		std::string name() const;
 
-		void setDescription(const std::string &description) {m_description = description;};
-		std::string description() const {return m_description;};
+		AbstractItem& setDescription(const std::string &description);
+		std::string description() const;
 
-		void setStyleUrl(const std::string &styleUrl) {m_styleUrl = styleUrl;};
-		std::string styleUrl() const {return m_styleUrl;};
+		AbstractItem& setStyleUrl(const std::string &styleUrl);
+		std::string styleUrl() const;
 
-		void setVisible(bool bVisible) {m_isVisible = bVisible;};
-		bool isVisible() const {return m_isVisible;};
+		AbstractItem& setVisible(bool bVisible);
+		bool isVisible() const;
 		
 		
 	private:

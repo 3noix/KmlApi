@@ -16,7 +16,7 @@ enum class AltitudeMode
 	RelativeToSeaFloor
 };
 
-std::string altitudeModeToStr(AltitudeMode am)
+inline std::string altitudeModeToStr(AltitudeMode am)
 {
 	if (am == AltitudeMode::Absolute)           {return "<altitudeMode>absolute</altitudeMode>";}
 	if (am == AltitudeMode::ClampToGround)      {return "<altitudeMode>clampToGround</altitudeMode>";}

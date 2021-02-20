@@ -4,32 +4,18 @@
 
 #include <map>
 #include <vector>
-#include <memory>
 #include <string>
-#include <fstream>
+#include <memory>
 #include "KmlAbstractItem.h"
 #include "KmlStyle.h"
+
 
 namespace Kml
 {
 class Document
 {
 	public:
-		Document(const std::string &name, const std::string &description = "<![CDATA[]]>")
-		{
-			m_name = name;
-			m_description = description;
-
-			// default styles
-			Style paddleGreenDot, paddleRedDot, blueLine5;
-			paddleGreenDot.rawContent = "<IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png</href></Icon></IconStyle>";
-			paddleRedDot.rawContent   = "<IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png</href></Icon></IconStyle>";
-			blueLine5.rawContent      = "<LineStyle><color>73FF0000</color><width>5</width></LineStyle><PolyStyle><fill>1</fill><outline>1</outline></PolyStyle>";
-			m_styles.insert({"paddleGreenDot", paddleGreenDot});
-			m_styles.insert({"paddleRedDot", paddleRedDot});
-			m_styles.insert({"blueLine5", blueLine5});
-		};
-
+		Document(const std::string &name, const std::string &description = "<![CDATA[]]>");
 		Document(const Document &other) = delete;
 		Document(Document &&other) = delete;
 		Document& operator=(const Document &other) = delete;
@@ -37,63 +23,29 @@ class Document
 		~Document() = default;
 
 
-		void setName(const std::string &name) {m_name = name;};
-		std::string name() const {return m_name;};
+		Document& setName(const std::string &name);
+		std::string name() const;
 
-		void setDescription(const std::string &description) {m_description = description;};
-		std::string description() const {return m_description;};
+		Document& setDescription(const std::string &description);
+		std::string description() const;
 
-		void setExpanded(bool expanded) {m_expanded = expanded;};
-		bool isExpanded() const {return m_expanded;};
+		Document& setExpanded(bool expanded);
+		bool isExpanded() const;
 
-		void setVisible(bool bVisible) {m_isVisible = bVisible;};
-		bool isVisible() const {return m_isVisible;};
+		Document& setVisible(bool bVisible);
+		bool isVisible() const;
 
-		void addStyle(const std::string &styleUrl, const Style &style) {m_styles.insert({styleUrl,style});};
-		void addItem(std::unique_ptr<AbstractItem>&& item) {m_kmlItems.push_back(std::move(item));};
+		Document& addStyle(const std::string &styleUrl, const Style &style);
+		Document& addItem(std::unique_ptr<AbstractItem>&& item);
+
+		std::string headerToString() const;
+		std::string bodyToString() const;
+		std::string footerToString() const;
+		std::string toString() const;
+
+		bool write(const std::string &filePath);
 
 
-		std::string headerToString() const
-		{
-			std::string str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-			str += "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\">\n";
-			str += "\t<Document>\n";
-			str += "\t\t<name>" + m_name + "</name>\n";
-			str += "\t\t<description>" + m_description + "</description>\n";
-			str += "\t\t<open>" + std::string{m_expanded ? "1" : "0"} + "</open>\n";
-			str += "\t\t<visible>" + std::string{m_isVisible ? "1" : "0"} + "</visible>\n";
-
-			for (const auto& [id, style] : m_styles) {str += style.toString(2,id);}
-			return str;
-		}
-
-		std::string bodyToString() const
-		{
-			std::string str;
-			for (const std::unique_ptr<AbstractItem> &item : m_kmlItems) {str += item->toString(2);}
-			return str;
-		}
-
-		std::string footerToString() const
-		{
-			return std::string{"\t</Document>\n</kml>\n"};
-		}
-
-		std::string toString() const
-		{
-			return headerToString() + bodyToString() + footerToString();
-		};
-
-		bool write(const std::string &filePath)
-		{
-			std::ofstream file{filePath};
-			if (file.fail()) {return false;}
-			file << this->toString();
-			file.close();
-			return true;
-		};
-		
-		
 	private:
 		std::string m_name;
 		std::string m_description;

@@ -12,26 +12,9 @@ namespace Kml
 class SpecialPoint : public AbstractItem
 {
 	public:
-		SpecialPoint(const std::string &name, const SimplePoint &p, const std::string &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractItem{name}
-		{
-			m_point = p;
-			this->setStyleUrl(styleUrl);
-			m_altMode = altMode;
-		};
-
-		SpecialPoint(const std::string &name, double lon, double lat, double alt, const std::string &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractItem{name}
-		{
-			m_point = SimplePoint{lon,lat,alt};
-			this->setStyleUrl(styleUrl);
-			m_altMode = altMode;
-		};
-
-		SpecialPoint(const std::string &name, double lon, double lat, const std::string &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute) : AbstractItem{name}
-		{
-			m_point = SimplePoint{lon,lat,0.0};
-			this->setStyleUrl(styleUrl);
-			m_altMode = altMode;
-		};
+		SpecialPoint(const std::string &name, const SimplePoint &p, const std::string &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute);
+		SpecialPoint(const std::string &name, double lon, double lat, double alt, const std::string &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute);
+		SpecialPoint(const std::string &name, double lon, double lat, const std::string &styleUrl = {}, AltitudeMode altMode = AltitudeMode::Absolute);
 
 		SpecialPoint(const SpecialPoint &other) = default;
 		SpecialPoint(SpecialPoint &&other) = default;
@@ -40,34 +23,18 @@ class SpecialPoint : public AbstractItem
 		virtual ~SpecialPoint() = default;
 		
 
-		virtual std::string toString(std::size_t tabs = 0) const override final
-		{
-			std::string prefix(tabs,'\t');
-			std::string str;
-			str += prefix + "<Placemark>\n";
-			str += prefix + "\t<name>" + this->name() + "</name>\n";
-			str += prefix + "\t<description>" + this->description() + "</description>\n";
-			str += prefix + "\t<styleUrl>" + this->styleUrl() + "</styleUrl>\n";
-			str += prefix + "\t<visible>" + (this->isVisible() ? "1" : "0") + "</visible>\n";
-			str += prefix + "\t<Point>\n";
-			str += prefix + "\t\t<extrude>" + (m_extruded ? "1" : "0") + "</extrude>\n";
-			str += prefix + "\t\t" + altitudeModeToStr(m_altMode) + "\n";
-			str += prefix + "\t\t<coordinates>" + std::to_string(m_point.lon) + "," + std::to_string(m_point.lat) + "," + std::to_string(m_point.alt) + "</coordinates>\n";
-			str += prefix + "\t</Point>\n";
-			str += prefix + "</Placemark>\n";
-			return str;
-		};
+		virtual std::string toString(std::size_t tabs = 0) const override final;
 
-		void setPoint(const SimplePoint &p) {m_point = p;};
-		void setPoint(double lon, double lat, double alt) {m_point = SimplePoint{lon,lat,alt};};
-		void setPoint(double lon, double lat) {m_point = SimplePoint{lon,lat}; m_altMode = AltitudeMode::ClampToGround;};
-		const SimplePoint& point() const {return m_point;};
+		SpecialPoint& setPoint(const SimplePoint &p);
+		SpecialPoint& setPoint(double lon, double lat, double alt);
+		SpecialPoint& setPoint(double lon, double lat);
+		const SimplePoint& point() const;
 
-		void setExtruded(bool b) {m_extruded = b;};
-		bool isExtruded() const {return m_extruded;};
+		SpecialPoint& setExtruded(bool b);
+		bool isExtruded() const;
 
-		void setAltitudeMode(AltitudeMode am) {m_altMode = am;};
-		AltitudeMode altitudeMode() const {return m_altMode;};
+		SpecialPoint& setAltitudeMode(AltitudeMode am);
+		AltitudeMode altitudeMode() const;
 
 
 	private:
