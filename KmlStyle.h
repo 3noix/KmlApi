@@ -19,14 +19,23 @@ class Style
 		~Style() = default;
 
 		std::string toString(std::size_t tabs, const std::string &id) const;
-		
-		std::optional<IconStyle>    iconStyle;
-		std::optional<LabelStyle>   labelStyle;
-		std::optional<LineStyle>    lineStyle;
-		std::optional<PolyStyle>    polyStyle;
-		std::optional<BalloonStyle> balloonStyle;
-		
-		std::optional<std::string> rawContent;
+
+		RawStyle& rawStyle();
+		IconStyle& iconStyle();
+		LabelStyle& labelStyle();
+		LineStyle& lineStyle();
+		PolyStyle& polyStyle();
+		BalloonStyle& balloonStyle();
+
+
+	private:
+		std::optional<RawStyle> m_rawStyle;
+
+		std::optional<IconStyle>    m_iconStyle;
+		std::optional<LabelStyle>   m_labelStyle;
+		std::optional<LineStyle>    m_lineStyle;
+		std::optional<PolyStyle>    m_polyStyle;
+		std::optional<BalloonStyle> m_balloonStyle;
 };
 }
 

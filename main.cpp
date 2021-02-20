@@ -12,10 +12,7 @@ int main(int argc, char *argv[])
 	Kml::Document kmlDoc{"My kml test file"};
 
 	// styles test
-	Kml::Style styleTest;
-	styleTest.lineStyle = Kml::LineStyle{}.setColor({"#ff00ff7f"}).setWidth(5);
-	styleTest.polyStyle = Kml::PolyStyle{}.setFill(true).setOutline(true);
-	kmlDoc.addStyle("styleTest", styleTest);
+	kmlDoc.addStyle("styleTest", Kml::Style{}.lineStyle().setColor({"#ff00ff7f"}).setWidth(5).polyStyle().setFill(true).setOutline(true).end());
 
 	// points
 	auto pt1 = std::make_unique<Kml::SpecialPoint>("Departure", Kml::SimplePoint{1.37,43.63,151}, "#paddleGreenDot", Kml::AltitudeMode::ClampToGround);

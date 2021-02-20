@@ -1,4 +1,5 @@
 #include "KmlSubStyles.h"
+#include "KmlStyle.h"
 
 
 namespace Kml
@@ -34,6 +35,24 @@ std::string viewRefreshModeToString(ViewRefreshMode vrm)
 	else if (vrm == ViewRefreshMode::OnRegion)  {return "onRegion";}
 	return "never";
 }
+
+
+// @1: AbstractSubStyle
+AbstractSubStyle::AbstractSubStyle(Style& parentStyle) : m_parentStyle{parentStyle} {}
+
+IconStyle&    AbstractSubStyle::iconStyle()    {return m_parentStyle.iconStyle();}
+LabelStyle&   AbstractSubStyle::labelStyle()   {return m_parentStyle.labelStyle();}
+LineStyle&    AbstractSubStyle::lineStyle()    {return m_parentStyle.lineStyle();}
+PolyStyle&    AbstractSubStyle::polyStyle()    {return m_parentStyle.polyStyle();}
+BalloonStyle& AbstractSubStyle::balloonStyle() {return m_parentStyle.balloonStyle();}
+Style& AbstractSubStyle::end() {return m_parentStyle;}
+
+
+// @1: RawStyle
+RawStyle::RawStyle(Style& parentStyle) : AbstractSubStyle{parentStyle} {}
+
+RawStyle& RawStyle::setContent(std::string str) {m_content = str; return *this;}
+std::string RawStyle::content() const {return m_content;}
 
 
 // @1: IconStyle
@@ -74,6 +93,8 @@ std::string Icon::toString(std::size_t tabs) const
 }
 
 
+IconStyle::IconStyle(Style& parentStyle) : AbstractSubStyle{parentStyle} {}
+
 IconStyle& IconStyle::setColor(Color c) {m_color = c; return *this;}
 IconStyle& IconStyle::setColorMode(ColorMode cm) {m_colorMode = cm; return *this;}
 IconStyle& IconStyle::setScale(double s) {m_scale = s; return *this;}
@@ -98,6 +119,8 @@ std::string IconStyle::toString(std::size_t tabs) const
 
 
 // @1: LabelStyle
+LabelStyle::LabelStyle(Style& parentStyle) : AbstractSubStyle{parentStyle} {}
+
 LabelStyle& LabelStyle::setColor(Color c) {m_color = c; return *this;}
 LabelStyle& LabelStyle::setColorMode(ColorMode cm) {m_colorMode = cm; return *this;}
 LabelStyle& LabelStyle::setScale(double s) {m_scale = s; return *this;}
@@ -116,6 +139,8 @@ std::string LabelStyle::toString(std::size_t tabs) const
 
 
 // @1: LineStyle
+LineStyle::LineStyle(Style& parentStyle) : AbstractSubStyle{parentStyle} {}
+
 LineStyle& LineStyle::setColor(Color c) {m_color = c; return *this;}
 LineStyle& LineStyle::setColorMode(ColorMode cm) {m_colorMode = cm; return *this;}
 LineStyle& LineStyle::setWidth(double w) {m_width = w; return *this;}
@@ -142,6 +167,8 @@ std::string LineStyle::toString(std::size_t tabs) const
 
 
 // @1: PolyStyle
+PolyStyle::PolyStyle(Style& parentStyle) : AbstractSubStyle{parentStyle} {}
+
 PolyStyle& PolyStyle::setColor(Color c) {m_color = c; return *this;}
 PolyStyle& PolyStyle::setColorMode(ColorMode cm) {m_colorMode = cm; return *this;}
 PolyStyle& PolyStyle::setFill(bool fill) {m_fill = fill; return *this;}
@@ -162,6 +189,8 @@ std::string PolyStyle::toString(std::size_t tabs) const
 
 
 // @1: BalloonStyle
+BalloonStyle::BalloonStyle(Style& parentStyle) : AbstractSubStyle{parentStyle} {}
+
 BalloonStyle& BalloonStyle::setBackgroundColor(Color c) {m_backgroundColor = c; return *this;}
 BalloonStyle& BalloonStyle::setTextColor(Color c) {m_textColor = c; return *this;}
 BalloonStyle& BalloonStyle::setText(const std::string &text) {m_text = text; return *this;}

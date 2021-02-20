@@ -11,12 +11,12 @@ Document::Document(const std::string &name, const std::string &description)
 
 	// default styles
 	Style paddleGreenDot, paddleRedDot, blueLine5;
-	paddleGreenDot.rawContent = "<IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png</href></Icon></IconStyle>";
-	paddleRedDot.rawContent   = "<IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png</href></Icon></IconStyle>";
-	blueLine5.rawContent      = "<LineStyle><color>73FF0000</color><width>5</width></LineStyle><PolyStyle><fill>1</fill><outline>1</outline></PolyStyle>";
-	m_styles.insert({"paddleGreenDot", paddleGreenDot});
-	m_styles.insert({"paddleRedDot", paddleRedDot});
-	m_styles.insert({"blueLine5", blueLine5});
+	paddleGreenDot.rawStyle().setContent("<IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png</href></Icon></IconStyle>");
+	paddleRedDot.rawStyle().setContent("<IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png</href></Icon></IconStyle>");
+	blueLine5.rawStyle().setContent("<LineStyle><color>73FF0000</color><width>5</width></LineStyle><PolyStyle><fill>1</fill><outline>1</outline></PolyStyle>");
+	this->addStyle("paddleGreenDot", paddleGreenDot);
+	this->addStyle("paddleRedDot", paddleRedDot);
+	this->addStyle("blueLine5", blueLine5);
 }
 
 Document& Document::setName(const std::string &name)

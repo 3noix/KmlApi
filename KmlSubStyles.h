@@ -20,6 +20,58 @@ std::string refreshModeToString(RefreshMode rm);
 std::string viewRefreshModeToString(ViewRefreshMode vrm);
 
 
+// @1: AbstractSubStyle
+class IconStyle;
+class LabelStyle;
+class LineStyle;
+class PolyStyle;
+class BalloonStyle;
+class Style;
+
+class AbstractSubStyle
+{
+	public:
+		AbstractSubStyle(Style& parentStyle);
+		AbstractSubStyle(const AbstractSubStyle &other) = default;
+		AbstractSubStyle(AbstractSubStyle &&other) = default;
+		AbstractSubStyle& operator=(const AbstractSubStyle &other) = default;
+		AbstractSubStyle& operator=(AbstractSubStyle &&other) = default;
+		~AbstractSubStyle() = default;
+
+		IconStyle&    iconStyle();
+		LabelStyle&   labelStyle();
+		LineStyle&    lineStyle();
+		PolyStyle&    polyStyle();
+		BalloonStyle& balloonStyle();
+
+		Style& end();
+		
+		
+	private:
+		Style& m_parentStyle;
+};
+
+
+// @1: RawStyle
+class RawStyle : public AbstractSubStyle
+{
+	public:
+		RawStyle(Style& parentStyle);
+		RawStyle(const RawStyle &other) = default;
+		RawStyle(RawStyle &&other) = default;
+		RawStyle& operator=(const RawStyle &other) = default;
+		RawStyle& operator=(RawStyle &&other) = default;
+		~RawStyle() = default;
+
+		RawStyle& setContent(std::string str);
+		std::string content() const;
+		
+		
+	private:
+		std::string m_content;
+};
+
+
 // @1: IconStyle
 class Icon
 {
@@ -72,10 +124,10 @@ struct Hotspot
 	HotspotUnit yUnits = HotspotUnit::Fraction;
 };
 
-class IconStyle
+class IconStyle : public AbstractSubStyle
 {
 	public:
-		IconStyle() = default;
+		IconStyle(Style& parentStyle);
 		IconStyle(const IconStyle &other) = default;
 		IconStyle(IconStyle &&other) = default;
 		IconStyle& operator=(const IconStyle &other) = default;
@@ -103,10 +155,10 @@ class IconStyle
 
 
 // @1: LabelStyle
-class LabelStyle
+class LabelStyle : public AbstractSubStyle
 {
 	public:
-		LabelStyle() = default;
+		LabelStyle(Style& parentStyle);
 		LabelStyle(const LabelStyle &other) = default;
 		LabelStyle(LabelStyle &&other) = default;
 		LabelStyle& operator=(const LabelStyle &other) = default;
@@ -128,10 +180,10 @@ class LabelStyle
 
 
 // @1: LineStyle
-class LineStyle
+class LineStyle : public AbstractSubStyle
 {
 	public:
-		LineStyle() = default;
+		LineStyle(Style& parentStyle);
 		LineStyle(const LineStyle &other) = default;
 		LineStyle(LineStyle &&other) = default;
 		LineStyle& operator=(const LineStyle &other) = default;
@@ -161,10 +213,10 @@ class LineStyle
 
 
 // @1: PolyStyle
-class PolyStyle
+class PolyStyle : public AbstractSubStyle
 {
 	public:
-		PolyStyle() = default;
+		PolyStyle(Style& parentStyle);
 		PolyStyle(const PolyStyle &other) = default;
 		PolyStyle(PolyStyle &&other) = default;
 		PolyStyle& operator=(const PolyStyle &other) = default;
@@ -188,10 +240,10 @@ class PolyStyle
 
 
 // @1: BalloonStyle
-class BalloonStyle
+class BalloonStyle : public AbstractSubStyle
 {
 	public:
-		BalloonStyle() = default;
+		BalloonStyle(Style& parentStyle);
 		BalloonStyle(const BalloonStyle &other) = default;
 		BalloonStyle(BalloonStyle &&other) = default;
 		BalloonStyle& operator=(const BalloonStyle &other) = default;
