@@ -15,13 +15,13 @@ MOC_DIR = $$MODE/moc
 QT = core
 
 
-SOURCES += main.cpp \
-		   KmlDocument.cpp \
-		   KmlAbstractItem.cpp \
-		   KmlFolder.cpp \
-		   KmlSpecialPoint.cpp \
-		   KmlTrajectory.cpp \
-		   KmlStyle.cpp \
-		   KmlSubStyles.cpp \
-		   KmlColor.cpp
+SOURCES += src/main.cpp \
+		   src/KmlDocument.cpp \
+		   src/KmlAbstractItem.cpp \
+		   src/KmlFolder.cpp \
+		   src/KmlSpecialPoint.cpp \
+		   src/KmlTrajectory.cpp \
+		   src/KmlStyle.cpp \
+		   src/KmlSubStyles.cpp \
+		   src/KmlColor.cpp
 
